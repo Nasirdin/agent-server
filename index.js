@@ -6,6 +6,8 @@ const categoryRoutes = require("./routes/categoryRoutes");
 const ownerRoutes = require("./routes/ownerRoutes");
 const productRoutes = require("./routes/productRoutes");
 const certificateRoutes = require("./routes/certificateRoutes");
+const cartRoutes = require("./routes/cartRoutes");
+const orderRoutes = require("./routes/orderRoutes");
 const cors = require("cors");
 
 const app = express();
@@ -24,6 +26,8 @@ app.use("/categories", categoryRoutes);
 app.use("/owners", ownerRoutes);
 app.use("/certificates", certificateRoutes);
 app.use("/products", productRoutes);
+app.use("/cart", cartRoutes);
+app.use("/orders", orderRoutes);
 
 app.get("/", (req, res) => {
   res.send("Привет, Express с MongoDB!");

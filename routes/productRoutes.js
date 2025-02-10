@@ -13,4 +13,5 @@ router.get("/:productId", productController.getProductById);
 
 router.get("/owner/:ownerId", productController.getProductsByOwnerId);
 
+
 module.exports = router;

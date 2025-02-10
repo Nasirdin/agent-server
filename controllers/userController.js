@@ -41,8 +41,6 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
   const { phoneNumber, password } = req.body;
-  console.log(phoneNumber);
-
   try {
     const user = await User.findOne({ phoneNumber });
     if (!user) {
@@ -82,7 +80,9 @@ exports.refreshToken = async (req, res) => {
 
   try {
     const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+
     const user = await User.findById(decoded.userId);
+
     if (!user || user.refreshToken !== refreshToken) {
       return res.status(403).json({ message: "Неверный refreshToken" });
     }
@@ -92,9 +92,9 @@ exports.refreshToken = async (req, res) => {
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN }
     );
-
     res.json({ accessToken });
   } catch (err) {
+    console.error("Ошибка при обновлении токена:", err);
     res.status(500).json({ message: "Ошибка обновления токена", error: err });
   }
 };

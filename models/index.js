@@ -77,7 +77,7 @@ const userSchema = new mongoose.Schema({
     { type: mongoose.Schema.Types.ObjectId, ref: "DeliveryAddress" },
   ],
   orders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }],
-  cartProducts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
+  cartProducts: [{ type: mongoose.Schema.Types.ObjectId, ref: "CartProduct" }],
   savedProducts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
   avatar: { type: String },
   costs: {
@@ -123,6 +123,7 @@ const orderSchema = new mongoose.Schema({
     enum: ["pending", "stated", "finished", "cancelled"],
     default: "pending",
   },
+  key: { type: String, required: true, unique: true},
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date },
   cancelledAt: { type: Date },
@@ -149,6 +150,17 @@ const newsSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
+const cartProductSchema = new mongoose.Schema({
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  productId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Product",
+    required: true,
+  },
+  quantity: { type: Number, required: true, min: 1, default: 1 },
+  createdAt: { type: Date, default: Date.now },
+});
+
 module.exports = {
   Product: mongoose.model("Product", productSchema),
   Certificate: mongoose.model("Certificate", certificateSchema),
@@ -159,4 +171,5 @@ module.exports = {
   Order: mongoose.model("Order", orderSchema),
   Promotion: mongoose.model("Promotion", promotionSchema),
   News: mongoose.model("News", newsSchema),
+  CartProduct: mongoose.model("CartProduct", cartProductSchema),
 };
